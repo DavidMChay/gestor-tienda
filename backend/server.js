@@ -15,15 +15,15 @@ app.use('/api', apiRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Servidor corriendo en el puerto: ${PORT}`);
 });
 
 // Conexión a la base de datos
 const db = new sqlite3.Database('./db/storage.db', (err) => {
   if (err) {
-    console.error('Error opening database', err.message);
+    console.error('Error al abrir la base de datos.', err.message);
   } else {
-    console.log('Connected to the SQLite database.');
+    console.log('Conectado a la base de datos correctamente.');
   }
 });
 
