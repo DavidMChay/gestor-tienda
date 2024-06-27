@@ -3,9 +3,14 @@ import React from 'react';
 
 const Admin = () => {
   return (
-    <div>
+    <html>
+      <head>
+        <title>Panel de Administradores</title>
+      </head>
+      <div>
       <h1>Panel de Administradores</h1>
-    </div>
+      </div>
+    </html>
   );
 };
 

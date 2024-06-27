@@ -3,9 +3,14 @@ import React from 'react';
 
 const Orders = () => {
   return (
-    <div>
+    <html>
+      <head>
+        <title>Pedidos</title>
+      </head>
+      <div>
       <h1>Pedidos</h1>
-    </div>
+      </div>
+    </html>
   );
 };
 

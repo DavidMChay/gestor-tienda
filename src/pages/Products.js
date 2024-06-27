@@ -3,9 +3,14 @@ import React from 'react';
 
 const Products = () => {
   return (
-    <div>
-      <h1>Nuestros Productos</h1>
-    </div>
+    <html>
+      <head>
+        <title>Productos</title>
+      </head>
+      <div>
+      <h1>Productos</h1>
+      </div>
+    </html>
   );
 };
 
