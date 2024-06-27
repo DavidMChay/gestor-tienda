@@ -4,7 +4,7 @@ import React from 'react';
 const Admin = () => {
   return (
     <div>
-      <h1>Admin</h1>
+      <h1>Panel de Administradores</h1>
     </div>
   );
 };
