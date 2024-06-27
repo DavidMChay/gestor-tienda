@@ -1,16 +1,12 @@
 // src/pages/Admin.js
 import React from 'react';
+import styles from './Admin.module.css';
 
 const Admin = () => {
   return (
-    <html>
-      <head>
-        <title>Panel de Administradores</title>
-      </head>
-      <div>
-      <h1>Panel de Administradores</h1>
-      </div>
-    </html>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Panel de Administradores</h1>
+    </div>
   );
 };
 

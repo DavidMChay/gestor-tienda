@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+/* src/pages/Home.module.css */
+.container {
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+  
+.title {
+  font-family: 'Outfit';
+  font-size: 2em;
+  color: #333;
+}
+  
