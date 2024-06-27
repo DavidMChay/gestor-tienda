@@ -19,7 +19,7 @@ app.listen(PORT, () => {
 });
 
 // Conexión a la base de datos
-const db = new sqlite3.Database('./db/database.sqlite', (err) => {
+const db = new sqlite3.Database('./db/storage.db', (err) => {
   if (err) {
     console.error('Error opening database', err.message);
   } else {
