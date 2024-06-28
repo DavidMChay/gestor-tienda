@@ -10,12 +10,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/storage.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# --MODELOS DE LAS TABLAS DE LA BASE DE DATOS--
 class Producto(db.Model):
     __tablename__ = 'Productos'
     id = db.Column(db.Integer, primary_key=True)
@@ -63,6 +63,7 @@ class Administrador(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     contrasena = db.Column(db.String, nullable=False)
 
+# --DEFINICION DE LAS RUTAS 
 @app.route('/')
 def index():
     return render_template('main.html')
