@@ -39,20 +39,7 @@ nav ul li a:hover {
 }
 
 main {
-    padding: 2rem;
     text-align: center;
-}
-
-.container {
-    padding: 20px;
-    background-color: #e0e0e0;
-    border-radius: 8px;
-}
-
-.title {
-    font-size: 2em;
-    color: #111;
-    margin-bottom: 1rem;
 }
 
 footer {
@@ -63,4 +50,30 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
+}
+
+.container {
+  background-color: #f0f0f0;
+  height: 10vh; /* Ajusta la altura si es necesario */
+  justify-content: center;
+  text-align: center;
+}
+
+.title {
+  font-size: 2em;
+  color: #333;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInDown 1s forwards; /* Aplica la animación */
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

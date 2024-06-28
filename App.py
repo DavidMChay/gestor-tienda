@@ -80,7 +80,7 @@ def productos():
 def pedidos():
     return render_template('orders.html')
 
-@app.route('/admin_panel')
+@app.route('/admin_login')
 def admin_panel():
     return render_template('admin.html')
 
