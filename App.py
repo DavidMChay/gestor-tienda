@@ -68,5 +68,9 @@ class Administrador(db.Model):
 def index():
     return render_template('main.html')
 
+@app.route('/productos')
+def productos():
+    return render_template('products.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
