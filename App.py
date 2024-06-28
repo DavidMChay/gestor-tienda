@@ -5,14 +5,23 @@
 #1. flask run --port 8000
 #Nota: Esto se hace dentro de la carpeta donde se encuentra el archivo app.py
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash
+import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24) 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/storage.db'
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+# Crear la carpeta si no existe
+if not os.path.exists(os.path.join(basedir, 'database')):
+    os.makedirs(os.path.join(basedir, 'database'))
+
+# Configuración de la base de datos
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database', 'storage.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
 # --MODELOS DE LAS TABLAS DE LA BASE DE DATOS--
@@ -63,7 +72,8 @@ class Administrador(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     contrasena = db.Column(db.String, nullable=False)
 
-# --DEFINICION DE LAS RUTAS 
+# --DEFINICION DE LAS RUTAS
+# ENDPOINTS PAGINAS
 @app.route('/')
 def index():
     return render_template('main.html')
@@ -80,9 +90,31 @@ def productos():
 def pedidos():
     return render_template('orders.html')
 
-@app.route('/admin_login')
-def admin_panel():
+# SOLICITUDES
+
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        admin = Administrador.query.filter_by(email=email).first()
+        if admin and check_password_hash(admin.contrasena, password):
+            session['admin_id'] = admin.id
+            return redirect(url_for('admin_panel'))
+        else:
+            flash('Correo o contraseña incorrectos')
     return render_template('admin.html')
+
+@app.route('/admin/panel')
+def admin_panel():
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    return render_template('paneladmin.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('admin_id', None)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
