@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Kicks | Agregar producto nuevo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_rec/adminagregarprod.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('home')}}">Inicio</a></li>
+                <li><a href="{{url_for('productos')}}">Administrar Productos</a></li>
+                <li><a href="{{url_for('pedidos')}}">Administrar Pedidos</a></li>
+                <li><a href="{{url_for('logout')}}">Salir</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1 class="mb-4">Agregar Nuevo Producto</h1>
+        <form method="POST" action="{{ url_for('admin_agregar_producto') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio:</label>
+                <input type="number" class="form-control" id="precio" name="precio" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="stock">Cantidad en Stock:</label>
+                <input type="number" class="form-control" id="stock" name="stock" required>
+            </div>
+            <div class="form-group">
+                <label for="imagen">Imagen del Producto:</label>
+                <input type="file" class="form-control-file" id="imagen" name="imagen" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Producto</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-danger mt-4">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </main>
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2024 Precision Kicks</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

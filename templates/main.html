@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Tenis | Inicio</title>
+    <title>Precision Kicks | Inicio</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main_rec/main.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -12,17 +12,22 @@
 <body>
     <header>
         <nav>
+            <div class="logo">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" class="logo-img">
+                </a>
+            </div>
             <ul>
                 <li><a href="{{ url_for('home') }}">Inicio</a></li>
                 <li><a href="{{ url_for('productos') }}">Productos</a></li>
                 <li><a href="{{ url_for('pedidos') }}">Mi carrito</a></li>
-                <li><a href="{{ url_for('admin_panel') }}">Admin.</a></li>
+                <li><a href="{{ url_for('admin_panel') }}">Mi perfil</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <div class="container mt-4">
-            <h1 class="title">Welcome to the Tennis Shop</h1>
+            <h1 class="title">Bienvenido al inicio de tu nuevo estilo</h1>
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -49,6 +54,10 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+        </div>
+        <!--Aquí debe ir la categoria de zapatos más recientes-->
+        <div>
+
         </div>
     </main>
     <footer>

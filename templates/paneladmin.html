@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='paneladmin_rec/paneladmin.css') }}">
+    <title>Precision Kicks | Panel Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_rec/paneladmin.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
 </head>
 <body>
     <header>
         <nav>
             <ul>
                 <li><a href="{{url_for('home')}}">Inicio</a></li>
-                <li><a href="{{url_for('productos')}}">Productos</a></li>
-                <li><a href="{{url_for('pedidos')}}">Pedidos</a></li>
-                <li><a href="{{url_for('admin_login')}}">Admin.</a></li>
+                <li><a href="{{url_for('productos')}}">Administrar Productos</a></li>
+                <li><a href="{{url_for('pedidos')}}">Administrar Pedidos</a></li>
+                <li><a href="{{url_for('logout')}}">Salir</a></li>
             </ul>
         </nav>
     </header>
@@ -22,11 +23,15 @@
         <div class="panel-container">
             <h1>Bienvenido al Panel de Administración</h1>
             <p>Accede a las funcionalidades administrativas aquí.</p>
-            <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
+            <div class="admin-options">
+                <a class="admin-option" href="{{ url_for('admin_agregar') }}">Agregar productos nuevos</a>
+                <!-- Puedes agregar más opciones aquí -->
+                <a class="admin-option" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+            </div>
         </div>
     </main>
     <footer>
-        <p>&copy; 2024 Tienda de Tenis</p>
+        <p>&copy; 2024 Precision Kicks</p>
     </footer>
 </body>
 </html>
