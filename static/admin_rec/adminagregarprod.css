@@ -1,4 +1,3 @@
-/* static/css/styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 html, body {
@@ -47,7 +46,6 @@ nav ul li a {
     font-family: 'Anton SC';
 }
 
-
 nav ul li a:hover,
 nav ul li a:focus {
     background-color: #555;
@@ -56,10 +54,28 @@ nav ul li a:focus {
     text-decoration: none;
 }
 
-
 main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 120px); /* Altura total menos el header y el footer */
     padding: 2rem;
-    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 600px; /* Ajusta el tamaño del contenedor */
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top:13%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.mb-4 {
+    font-family: 'Anton SC';
 }
 
 footer {
@@ -69,6 +85,8 @@ footer {
     text-align: center;
     width: 100%;
     bottom: 0;
+    margin-top:13%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 @keyframes fadeInDown {

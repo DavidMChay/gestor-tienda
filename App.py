@@ -35,7 +35,8 @@ class Producto(db.Model):
     precio = db.Column(db.Float, nullable=False)
     stock = db.Column(db.Integer, nullable=False)
     fecha_agregado = db.Column(db.DateTime, default=db.func.current_timestamp())
-    imagen = db.Column(db.String) 
+    imagen = db.Column(db.String)
+    categoria = db.Column(db.String)
 
 class Cliente(db.Model):
     __tablename__ = 'Clientes'
@@ -118,6 +119,7 @@ def admin_agregar_producto():
         precio = request.form['precio']
         stock = request.form['stock']
         imagen = request.files['imagen']
+        categoria = request.form['categoria']
 
         # Verificar si el producto ya existe
         producto_existente = Producto.query.filter_by(nombre=nombre).first()
@@ -134,10 +136,9 @@ def admin_agregar_producto():
             imagen_path = None
 
         # Agregar nuevo producto a la base de datos
-        nuevo_producto = Producto(nombre=nombre, descripcion=descripcion, precio=precio, stock=stock, imagen=imagen_path)
+        nuevo_producto = Producto(nombre=nombre, descripcion=descripcion, precio=precio, stock=stock, imagen=imagen_path, categoria=categoria)
         db.session.add(nuevo_producto)
         db.session.commit()
-        flash('Producto agregado exitosamente.')
         return redirect(url_for('admin_panel'))
     return render_template('adminagregarprod.html')
 
