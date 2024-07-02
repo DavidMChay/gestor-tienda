@@ -1,67 +1,86 @@
 /* static/css/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&display=swap');
+
+html, body {
+  height: 100%;
+}
+
 body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
+  font-family: 'Anton SC';
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
 }
 
 nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 nav ul li {
-    display: inline;
+  display: inline;
 }
 
 nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s;
+  font-size: 1.2rem;
+  font-family: 'Anton SC';
 }
 
-nav ul li a:hover {
-    background-color: #555;
-    border-radius: 4px;
+
+nav ul li a:hover,
+nav ul li a:focus {
+  background-color: #555;
+  border-radius: 4px;
+  color: white; /* Mantener el color blanco al hacer hover */
+  text-decoration: none; /* Asegurar que no haya subrayado */
 }
+
 
 main {
-    text-align: center;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+  padding: 2rem;
+  text-align: center;
 }
 
 .container {
-  background-color: #f0f0f0;
-  height: 10vh; /* Ajusta la altura si es necesario */
-  justify-content: center;
+  padding: 20px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
   text-align: center;
+  width: 100%;
+  bottom: 0;
+}
+
+.carousel-inner img {
+  height: 500px; /* Ajusta la altura según sea necesario */
+  object-fit: cover;
 }
 
 .title {
   font-size: 2em;
-  color: #333;
+  color: #111;
+  margin-bottom: 1rem;
+  font-family: 'Anton SC';
   opacity: 0;
   transform: translateY(-20px);
   animation: fadeInDown 1s forwards; /* Aplica la animación */
