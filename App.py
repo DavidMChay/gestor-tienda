@@ -46,14 +46,16 @@ class Cliente(db.Model):
     telefono = db.Column(db.String)
     direccion = db.Column(db.String)
     password = db.Column(db.String, nullable=False)
-
+    
 class Pedido(db.Model):
     __tablename__ = 'Pedidos'
     id = db.Column(db.Integer, primary_key=True)
     cliente_id = db.Column(db.Integer, db.ForeignKey('Clientes.id'), nullable=False)
     fecha_pedido = db.Column(db.DateTime, default=db.func.current_timestamp())
     total = db.Column(db.Float, nullable=False)
-
+    cliente = db.relationship('Cliente', backref=db.backref('pedidos', lazy=True))
+    detalles = db.relationship('DetallePedido', backref='pedido', lazy=True)
+    
 class DetallePedido(db.Model):
     __tablename__ = 'DetallesPedido'
     id = db.Column(db.Integer, primary_key=True)
@@ -61,6 +63,7 @@ class DetallePedido(db.Model):
     producto_id = db.Column(db.Integer, db.ForeignKey('Productos.id'), nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
     precio_unitario = db.Column(db.Float, nullable=False)
+    producto = db.relationship('Producto', backref=db.backref('detalles', lazy=True))
 
 class Auditoria(db.Model):
     __tablename__ = 'Auditoria'
@@ -93,10 +96,6 @@ def productos():
     productos = Producto.query.all() 
     return render_template('products.html', productos=productos)
 
-@app.route('/pedidos')
-def pedidos():
-    return render_template('orders.html')
-
 @app.route('/admin/panel')
 def admin_panel():
     if 'admin_id' not in session:
@@ -115,11 +114,59 @@ def user_perfil():
         return redirect(url_for('user_login'))
     return render_template('miperfil.html')
 
+@app.route('/agregar_al_carrito/<int:producto_id>')
+def agregar_al_carrito(producto_id):
+    if 'cliente_id' not in session:
+        flash('Por favor inicia sesión para agregar productos al carrito.')
+        return redirect(url_for('user_login'))
+
+    cliente_id = session['cliente_id']
+    producto = Producto.query.get_or_404(producto_id)
+    pedido = Pedido.query.filter_by(cliente_id=cliente_id, total=0).first()
+
+    if not pedido:
+        pedido = Pedido(cliente_id=cliente_id, total=0)
+        db.session.add(pedido)
+        db.session.commit()
+
+    detalle = DetallePedido.query.filter_by(pedido_id=pedido.id, producto_id=producto_id).first()
+    if detalle:
+        detalle.cantidad += 1
+    else:
+        detalle = DetallePedido(pedido_id=pedido.id, producto_id=producto_id, cantidad=1, precio_unitario=producto.precio)
+        db.session.add(detalle)
+
+    db.session.commit()
+    flash('Producto agregado al carrito.')
+    return redirect(url_for('productos'))
+
+
 @app.route('/mi-carrito')
 def user_carrito():
     if 'cliente_id' not in session:
         return redirect(url_for('user_login'))
-    return render_template('orders.html')
+
+    cliente_id = session['cliente_id']
+    pedido = Pedido.query.filter_by(cliente_id=cliente_id, total=0).first()
+    detalles_pedido = []
+
+    if pedido:
+        detalles_pedido = DetallePedido.query.filter_by(pedido_id=pedido.id).all()
+
+    return render_template('orders.html', detalles_pedido=detalles_pedido)
+
+@app.route('/eliminar_del_carrito/<int:detalle_id>')
+def eliminar_del_carrito(detalle_id):
+    if 'cliente_id' not in session:
+        flash('Por favor inicia sesión para eliminar productos del carrito.')
+        return redirect(url_for('user_login'))
+
+    detalle = DetallePedido.query.get_or_404(detalle_id)
+    db.session.delete(detalle)
+    db.session.commit()
+    flash('Producto eliminado del carrito.')
+    return redirect(url_for('user_carrito'))
+
 
 @app.route('/admin/panel/gestionar_productos')
 def admin_listar_productos():
