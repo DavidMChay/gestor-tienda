@@ -1,4 +1,4 @@
-/* static/css/styles.css */
+/* Estilos generales */
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 html, body {
@@ -27,14 +27,16 @@ nav {
 
 .logo {
   margin-left: 1rem;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 .logo-img {
   height: 50px;
   filter: invert(100%);
 }
-
+.mb-4{
+    font-family: 'Anton SC';
+}
 
 nav ul {
   list-style: none;
@@ -58,7 +60,6 @@ nav ul li a {
   font-family: 'Anton SC';
 }
 
-
 nav ul li a:hover,
 nav ul li a:focus {
   background-color: #555;
@@ -67,16 +68,14 @@ nav ul li a:focus {
   text-decoration: none;
 }
 
-
 main {
   padding: 2rem;
   text-align: center;
+  font-family: 'Open Sans', sans-serif;
 }
 
-.container {
-  padding: 20px;
-  background-color: #e0e0e0;
-  border-radius: 8px;
+.table {
+  margin-top: 1rem;
 }
 
 footer {
@@ -86,51 +85,4 @@ footer {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   width: 100%;
-  bottom: 0;
-}
-
-.carousel-inner img {
-  height: 500px;
-  object-fit: cover;
-}
-
-.title {
-  font-size: 2em;
-  color: #111;
-  margin-bottom: 1rem;
-  font-family: 'Anton SC';
-  opacity: 0;
-  transform: translateY(-20px);
-  animation: fadeInDown 1s forwards;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.card {
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-h2{
-  font-family: 'Anton SC';
-  font-size: 2em;
-  color: #111;
-  margin-bottom: 1rem;
-}
-
-.row{
-  font-family: 'Open Sans', sans-serif;
 }

@@ -7,7 +7,7 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
 
@@ -45,6 +45,7 @@ class Cliente(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     telefono = db.Column(db.String)
     direccion = db.Column(db.String)
+    password = db.Column(db.String, nullable=False)
 
 class Pedido(db.Model):
     __tablename__ = 'Pedidos'
@@ -80,11 +81,12 @@ class Administrador(db.Model):
 # ENDPOINTS PAGINAS
 @app.route('/')
 def index():
-    return render_template('main.html')
+    productos_recientes = Producto.query.order_by(Producto.fecha_agregado.desc()).limit(4).all()
+    return render_template('main.html', productos_recientes=productos_recientes)
 
 @app.route('/home')
 def home():
-    return render_template('main.html')
+    return redirect(url_for('index'))
 
 @app.route('/productos')
 def productos():
@@ -107,8 +109,102 @@ def admin_agregar():
         return redirect(url_for('admin_login'))
     return render_template('adminagregarprod.html')
 
+@app.route('/perfil')
+def user_perfil():
+    if 'cliente_id' not in session:
+        return redirect(url_for('user_login'))
+    return render_template('miperfil.html')
+
+@app.route('/mi-carrito')
+def user_carrito():
+    if 'cliente_id' not in session:
+        return redirect(url_for('user_login'))
+    return render_template('orders.html')
+
+@app.route('/admin/panel/gestionar_productos')
+def admin_listar_productos():
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    productos = Producto.query.all()
+    return render_template('adminlspd.html', productos=productos)
+
+@app.route('/admin/panel/editar/<int:producto_id>', methods=['GET', 'POST'])
+def admin_editar_producto(producto_id):
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    producto = Producto.query.get_or_404(producto_id)
+    if request.method == 'POST':
+        producto.nombre = request.form['nombre']
+        producto.descripcion = request.form['descripcion']
+        producto.precio = request.form['precio']
+        producto.stock = request.form['stock']
+        producto.categoria = request.form['categoria']
+
+        imagen = request.files['imagen']
+        if imagen:
+            filename = secure_filename(imagen.filename)
+            imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            producto.imagen = 'uploads/' + filename
+        
+        db.session.commit()
+        flash('Producto actualizado correctamente.')
+        return redirect(url_for('admin_listar_productos'))
+    return render_template('admin_edit_product.html', producto=producto)
+
+@app.route('/admin/panel/eliminar/<int:producto_id>', methods=['POST'])
+def admin_eliminar_producto(producto_id):
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    producto = Producto.query.get_or_404(producto_id)
+    db.session.delete(producto)
+    db.session.commit()
+    flash('Producto eliminado correctamente.')
+    return redirect(url_for('admin_listar_productos'))
 
 # SOLICITUDES
+@app.route('/registro', methods=['GET', 'POST'])
+def user_registro():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        email = request.form['email']
+        telefono = request.form['telefono']
+        direccion = request.form['direccion']
+        password = request.form['password']
+        
+        # Verificar si el email ya está registrado
+        cliente_existente = Cliente.query.filter_by(email=email).first()
+        if cliente_existente:
+            flash('El email ya está registrado.')
+            return redirect(url_for('user_registro'))
+        
+        # Crear nuevo cliente
+        nuevo_cliente = Cliente(
+            nombre=nombre, 
+            email=email, 
+            telefono=telefono, 
+            direccion=direccion, 
+            password=generate_password_hash(password)
+        )
+        db.session.add(nuevo_cliente)
+        db.session.commit()
+        flash('Registro exitoso. Ahora puedes iniciar sesión.')
+        return redirect(url_for('user_login'))
+    
+    return render_template('userregistro.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def user_login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        cliente = Cliente.query.filter_by(email=email).first()
+        if cliente and check_password_hash(cliente.password, password):
+            session['cliente_id'] = cliente.id
+            return redirect(url_for('user_perfil'))
+        else:
+            flash('Correo o contraseña incorrectos')
+    return render_template('userlogin.html')
+
 
 @app.route('/admin/panel/agregar', methods=['GET', 'POST'])
 def admin_agregar_producto():

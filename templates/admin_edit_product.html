@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Kicks | Editar Productos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_rec/admin_edit_product.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('admin_panel')}}">Inicio</a></li>
+                <li><a href="{{url_for('admin_listar_productos')}}">Administrar Productos</a></li>
+                <li><a href="{{url_for('pedidos')}}">Administrar Pedidos</a></li>
+                <li><a href="{{url_for('logout')}}">Salir</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container mt-4">
+        <h1 class="mb-4">Editar Producto</h1>
+        <form method="POST" action="{{ url_for('admin_editar_producto', producto_id=producto.id) }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ producto.nombre }}" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" required>{{ producto.descripcion }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio:</label>
+                <input type="number" class="form-control" id="precio" name="precio" step="0.01" value="{{ producto.precio }}" required>
+            </div>
+            <div class="form-group">
+                <label for="stock">Cantidad en Stock:</label>
+                <input type="number" class="form-control" id="stock" name="stock" value="{{ producto.stock }}" required>
+            </div>
+            <div class="form-group">
+                <label for="categoria">Categoría:</label>
+                <input type="text" class="form-control" id="categoria" name="categoria" value="{{ producto.categoria }}" required>
+            </div>
+            <div class="form-group">
+                <label for="imagen">Imagen del Producto:</label>
+                <input type="file" class="form-control-file" id="imagen" name="imagen">
+                <small class="form-text text-muted">Deja este campo vacío si no deseas cambiar la imagen.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 Precision Kicks</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
