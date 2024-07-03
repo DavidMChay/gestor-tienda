@@ -1,66 +1,78 @@
 /* static/css/styles.css */
 body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
 }
 
 nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 nav ul li {
-    display: inline;
+  display: inline;
 }
 
 nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s;
 }
 
 nav ul li a:hover {
-    background-color: #555;
-    border-radius: 4px;
+  background-color: #555;
+  border-radius: 4px;
 }
 
 main {
-    padding: 2rem;
-    text-align: center;
+  padding: 2rem;
+  text-align: center;
 }
 
 .container {
-    padding: 20px;
-    background-color: #e0e0e0;
-    border-radius: 8px;
+  padding: 20px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
 }
 
 .title {
-    font-size: 2em;
-    color: #111;
-    margin-bottom: 1rem;
+  font-size: 2em;
+  color: #111;
+  margin-bottom: 1rem;
 }
 
 footer {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+.product-image {
+  width: 10%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
