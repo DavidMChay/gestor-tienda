@@ -13,7 +13,7 @@
         <nav>
             <ul>
                 <li><a href="{{url_for('admin_panel')}}">Inicio</a></li>
-                <li><a href="{{url_for('productos')}}">Administrar Productos</a></li>
+                <li><a href="{{url_for('admin_listar_productos')}}">Administrar Productos</a></li>
                 <li><a href="{{url_for('pedidos')}}">Administrar Pedidos</a></li>
                 <li><a href="{{url_for('logout')}}">Salir</a></li>
             </ul>
@@ -25,6 +25,7 @@
             <p>Accede a las funcionalidades administrativas aquí.</p>
             <div class="admin-options">
                 <a class="admin-option" href="{{ url_for('admin_agregar') }}">Agregar productos nuevos</a>
+                <a class="admin-option" href="{{ url_for('admin_listar_productos') }}">Gestionar y editar productos</a>
                 <!-- Puedes agregar más opciones aquí -->
                 <a class="admin-option" href="{{ url_for('logout') }}">Cerrar Sesión</a>
             </div>

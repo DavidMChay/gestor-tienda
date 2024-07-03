@@ -20,8 +20,8 @@
             <ul>
                 <li><a href="{{ url_for('home') }}">Inicio</a></li>
                 <li><a href="{{ url_for('productos') }}">Productos</a></li>
-                <li><a href="{{ url_for('pedidos') }}">Mi carrito</a></li>
-                <li><a href="{{ url_for('admin_panel') }}">Mi perfil</a></li>
+                <li><a href="{{ url_for('user_carrito') }}">Mi carrito</a></li>
+                <li><a href="{{ url_for('user_perfil') }}">Mi perfil</a></li>
             </ul>
         </nav>
     </header>
@@ -55,9 +55,25 @@
                 </a>
             </div>
         </div>
+        
         <!--Aquí debe ir la categoria de zapatos más recientes-->
-        <div>
-
+        <div class="container mt-5">
+            <h2>Últimos productos agregados</h2>
+            <div class="row">
+                {% for producto in productos_recientes %}
+                    <div class="col-md-3">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="{{ url_for('static', filename=producto.imagen) }}" class="card-img-top" alt="{{ producto.nombre }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ producto.nombre }}</h5>
+                                <p class="card-text">{{ producto.descripcion }}</p>
+                                <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
+                                <a href="#" class="btn btn-primary">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </main>
     <footer>
