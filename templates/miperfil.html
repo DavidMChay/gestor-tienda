@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Kicks | Mi Perfil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_rec/miperfil.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" class="logo-img">
+                </a>
+            </div>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Inicio</a></li>
+                <li><a href="{{ url_for('productos') }}">Productos</a></li>
+                <li><a href="{{ url_for('user_carrito') }}">Mi carrito</a></li>
+                <li><a href="{{ url_for('user_perfil') }}">Mi perfil</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container mt-4">
+        <h1 class="title">MI PERFIL</h1>
+        <p>Aquí puedes ver tu información de perfil y editarla.</p>
+    </main>
+    <footer>
+        <p>&copy; 2024 Precision Kicks</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

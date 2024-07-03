@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Anton SC';
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f0f0;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  margin-left: 1rem;
+  margin-bottom: 10px;
+}
+
+.logo-img {
+  height: 50px;
+  filter: invert(100%);
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s;
+  font-size: 1.2rem;
+  font-family: 'Anton SC';
+}
+
+nav ul li a:hover,
+nav ul li a:focus {
+  background-color: #555;
+  border-radius: 4px;
+  color: white;
+  text-decoration: none;
+}
+
+main {
+  flex: 1; /* Esto hace que main tome el espacio disponible */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.title {
+    font-size: 2em;
+    color: #111;
+    margin-bottom: 1rem;
+    font-family: 'Anton SC';
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  width: 100%;
+}
