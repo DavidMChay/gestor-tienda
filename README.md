@@ -1,1 +1,1 @@
-# GESTOR DE TIENDA
+# Documentación
