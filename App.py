@@ -14,77 +14,82 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(24) 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+# Información de conexión proporcionada por Supabase
+user = "postgres.tidxgrbtrrqbuxnkmwji"
+password = "ZorroPuto69!"  # Reemplaza con la contraseña correcta
+host = "aws-0-us-west-1.pooler.supabase.com"
+port = "6543"
+dbname = "postgres"
 
-# Crear la carpeta si no existe
-if not os.path.exists(os.path.join(basedir, 'database')):
-    os.makedirs(os.path.join(basedir, 'database'))
+# Crear la URL de conexión
+DATABASE_URL = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}"
 
 # Configuración de la base de datos
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database', 'storage.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'static', 'uploads')
+app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'uploads')
 db = SQLAlchemy(app)
 
 # --MODELOS DE LAS TABLAS DE LA BASE DE DATOS--
 class Producto(db.Model):
-    __tablename__ = 'Productos'
+    __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String, nullable=False)
-    descripcion = db.Column(db.String)
-    precio = db.Column(db.Float, nullable=False)
+    name = db.Column(db.String, nullable=False)
+    details = db.Column(db.String)
     stock = db.Column(db.Integer, nullable=False)
-    fecha_agregado = db.Column(db.DateTime, default=db.func.current_timestamp())
-    imagen = db.Column(db.String)
-    categoria = db.Column(db.String)
+    added_date = db.Column(db.DateTime, default=db.func.current_timestamp())
+    picture = db.Column(db.String)
+    category = db.Column(db.String, nullable=False)
 
 class Cliente(db.Model):
-    __tablename__ = 'Clientes'
+    __tablename__ = 'customers'
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
-    telefono = db.Column(db.String)
-    direccion = db.Column(db.String)
+    phone = db.Column(db.Integer)
+    address = db.Column(db.String)
     password = db.Column(db.String, nullable=False)
     
 class Pedido(db.Model):
-    __tablename__ = 'Pedidos'
+    __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
-    cliente_id = db.Column(db.Integer, db.ForeignKey('Clientes.id'), nullable=False)
-    fecha_pedido = db.Column(db.DateTime, default=db.func.current_timestamp())
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
+    order_date = db.Column(db.DateTime, default=db.func.current_timestamp())
     total = db.Column(db.Float, nullable=False)
-    cliente = db.relationship('Cliente', backref=db.backref('pedidos', lazy=True))
-    detalles = db.relationship('DetallePedido', backref='pedido', lazy=True)
+    customer = db.relationship('Cliente', backref=db.backref('orders', lazy=True))
+    detalles = db.relationship('DetallePedido', backref='order', lazy=True)
     
 class DetallePedido(db.Model):
-    __tablename__ = 'DetallesPedido'
+    __tablename__ = 'ordersDetails'
     id = db.Column(db.Integer, primary_key=True)
-    pedido_id = db.Column(db.Integer, db.ForeignKey('Pedidos.id'), nullable=False)
-    producto_id = db.Column(db.Integer, db.ForeignKey('Productos.id'), nullable=False)
-    cantidad = db.Column(db.Integer, nullable=False)
-    precio_unitario = db.Column(db.Float, nullable=False)
-    producto = db.relationship('Producto', backref=db.backref('detalles', lazy=True))
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    unit_price = db.Column(db.Float, nullable=False)
+    product = db.relationship('Producto', backref=db.backref('ordersDetails', lazy=True))
 
 class Auditoria(db.Model):
-    __tablename__ = 'Auditoria'
+    __tablename__ = 'auditory'
     id = db.Column(db.Integer, primary_key=True)
-    entidad = db.Column(db.String, nullable=False)
-    operacion = db.Column(db.String, nullable=False)
-    fecha = db.Column(db.DateTime, default=db.func.current_timestamp())
-    descripcion = db.Column(db.String)
+    entity = db.Column(db.String, nullable=False)
+    operation = db.Column(db.String, nullable=False)
+    date = db.Column(db.DateTime, default=db.func.current_timestamp())
+    details = db.Column(db.String)
 
 class Administrador(db.Model):
-    __tablename__ = 'Administradores'
+    __tablename__ = 'administradores'
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
-    contrasena = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
 
+if __name__ == '__main__':
+    app.run(debug=True)
 # --DEFINICION DE LAS RUTAS
 # ENDPOINTS PAGINAS
 @app.route('/')
 def index():
-    productos_recientes = Producto.query.order_by(Producto.fecha_agregado.desc()).limit(4).all()
+    productos_recientes = Producto.query.order_by(Producto.added_date.desc()).limit(4).all()
     return render_template('main.html', productos_recientes=productos_recientes)
 
 @app.route('/home')
