@@ -25,15 +25,15 @@
         <form method="POST" action="{{ url_for('admin_editar_producto', producto_id=producto.id) }}" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ producto.nombre }}" required>
+                <input type="text" class="form-control" id="name" name="name" value="{{ producto.name }}" required>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" required>{{ producto.descripcion }}</textarea>
+                <textarea class="form-control" id="details" name="details" required>{{ producto.details }}</textarea>
             </div>
             <div class="form-group">
                 <label for="precio">Precio:</label>
-                <input type="number" class="form-control" id="precio" name="precio" step="0.01" value="{{ producto.precio }}" required>
+                <input type="number" class="form-control" id="unit_price" name="unit_price" step="0.01" value="{{ producto.unit_price }}" required>
             </div>
             <div class="form-group">
                 <label for="stock">Cantidad en Stock:</label>
@@ -41,11 +41,11 @@
             </div>
             <div class="form-group">
                 <label for="categoria">Categoría:</label>
-                <input type="text" class="form-control" id="categoria" name="categoria" value="{{ producto.categoria }}" required>
+                <input type="text" class="form-control" id="category" name="category" value="{{ producto.category }}" required>
             </div>
             <div class="form-group">
-                <label for="imagen">Imagen del Producto:</label>
-                <input type="file" class="form-control-file" id="imagen" name="imagen">
+                <label for="picture">Imagen del Producto:</label>
+                <input type="file" class="form-control-file" id="picture" name="picture">
                 <small class="form-text text-muted">Deja este campo vacío si no deseas cambiar la imagen.</small>
             </div>
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>

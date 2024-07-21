@@ -63,12 +63,12 @@
           {% for producto in productos_recientes %}
           <div class="col-md-3">
             <div class="card mb-4 shadow-sm">
-              <img src="{{ url_for('static', filename=producto.imagen) }}" class="card-img-top" alt="{{ producto.nombre }}">
+              <img src="{{ url_for('static', filename=producto.picture) }}" class="card-img-top" alt="{{ producto.name }}">
               <div class="card-body">
-                <h5 class="card-title">{{ producto.nombre }}</h5>
-                <p class="card-text">{{ producto.descripcion }}</p>
+                <h5 class="card-title">{{ producto.name }}</h5>
+                <p class="card-text">{{ producto.detail }}</p>
                 <p class="card-text">
-                  <strong>Precio:</strong> ${{ producto.precio }}
+                  <strong>Precio:</strong> ${{ producto.unit_price }}
                 </p>
                 <a href="{{ url_for('agregar_al_carrito', producto_id=producto.id) }}" class="btn btn-success">Agregar al carrito</a>
                 <a href="#" class="btn btn-primary">Ver más</a>

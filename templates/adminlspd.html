@@ -11,56 +11,58 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{url_for('admin_panel')}}">Inicio</a></li>
-                <li><a href="{{url_for('admin_listar_productos')}}">Administrar Productos</a></li>
-                <li><a href="{{url_for('productos')}}">Administrar Pedidos</a></li>
-                <li><a href="{{url_for('logout')}}">Salir</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main class="container mt-4">
-        <h1 class="mb-4">Gestionar Productos</h1>
-        
-        <table id="productos-table" class="display">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Categoría</th>
-                    <th>Imagen</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for producto in productos %}
+    <div class="d-flex flex-column min-vh-100">
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{{url_for('admin_panel')}}">Inicio</a></li>
+                    <li><a href="{{url_for('admin_listar_productos')}}">Administrar Productos</a></li>
+                    <li><a href="{{url_for('productos')}}">Administrar Pedidos</a></li>
+                    <li><a href="{{url_for('logout')}}">Salir</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main class="container mt-4 flex-grow-1">
+            <h1 class="mb-4">Gestionar Productos</h1>
+            
+            <table id="productos-table" class="display">
+                <thead>
                     <tr>
-                        <td>{{ producto.id }}</td>
-                        <td>{{ producto.nombre }}</td>
-                        <td>{{ producto.descripcion }}</td>
-                        <td>{{ producto.precio }}</td>
-                        <td>{{ producto.stock }}</td>
-                        <td>{{ producto.categoria }}</td>
-                        <td><img src="{{ url_for('static', filename=producto.imagen) }}" alt="{{ producto.nombre }}" style="height: 50px;"></td>
-                        <td>
-                            <a href="{{ url_for('admin_editar_producto', producto_id=producto.id) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form method="POST" action="{{ url_for('admin_eliminar_producto', producto_id=producto.id) }}" style="display: inline;">
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">Eliminar</button>
-                            </form>
-                        </td>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Categoría</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </main>
-    <footer>
-        <p>&copy; 2024 Precision Kicks</p>
-    </footer>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                        <tr>
+                            <td>{{ producto.id }}</td>
+                            <td>{{ producto.name }}</td>
+                            <td>{{ producto.details }}</td>
+                            <td>{{ producto.unit_price }}</td>
+                            <td>{{ producto.stock }}</td>
+                            <td>{{ producto.category }}</td>
+                            <td><img src="{{ url_for('static', filename=producto.picture) }}" alt="{{ producto.name }}" style="height: 50px;"></td>
+                            <td>
+                                <a href="{{ url_for('admin_editar_producto', producto_id=producto.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                                <form method="POST" action="{{ url_for('admin_eliminar_producto', producto_id=producto.id) }}" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+        <footer>
+            <p>&copy; 2024 Precision Kicks</p>
+        </footer>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

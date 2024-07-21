@@ -3,13 +3,16 @@
 
 html, body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
 }
 
 body {
   font-family: 'Anton SC';
-  margin: 0;
-  padding: 0;
-  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
@@ -33,9 +36,6 @@ nav {
 .logo-img {
   height: 50px;
   filter: invert(100%);
-}
-.mb-4{
-    font-family: 'Anton SC';
 }
 
 nav ul {
@@ -69,6 +69,7 @@ nav ul li a:focus {
 }
 
 main {
+  flex: 1;
   padding: 2rem;
   text-align: center;
   font-family: 'Open Sans', sans-serif;

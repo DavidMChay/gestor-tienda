@@ -187,17 +187,17 @@ def admin_editar_producto(producto_id):
         return redirect(url_for('admin_login'))
     producto = Producto.query.get_or_404(producto_id)
     if request.method == 'POST':
-        producto.nombre = request.form['nombre']
-        producto.descripcion = request.form['descripcion']
-        producto.precio = request.form['precio']
+        producto.name = request.form['name']
+        producto.details = request.form['details']
+        producto.unit_price = request.form['unit_price']
         producto.stock = request.form['stock']
-        producto.categoria = request.form['categoria']
+        producto.category = request.form['category']
 
-        imagen = request.files['imagen']
-        if imagen:
-            filename = secure_filename(imagen.filename)
-            imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            producto.imagen = 'uploads/' + filename
+        picture = request.files['picture']
+        if picture:
+            filename = secure_filename(picture.filename)
+            picture.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            producto.picture = 'uploads/' + filename
         
         db.session.commit()
         flash('Producto actualizado correctamente.')
