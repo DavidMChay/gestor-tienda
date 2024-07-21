@@ -47,7 +47,7 @@ class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
-    phone = db.Column(db.Integer)
+    phone = db.Column(db.String)
     address = db.Column(db.String)
     password = db.Column(db.String, nullable=False)
     
@@ -116,17 +116,26 @@ def admin_agregar():
 
 @app.route('/perfil')
 def user_perfil():
-    if 'cliente_id' not in session:
+    if 'customer_id' not in session:
         return redirect(url_for('user_login'))
-    return render_template('miperfil.html')
+    
+    customer_id = session['customer_id']
+    customer = Cliente.query.get(customer_id)
+    
+    if not customer:
+        flash('Usuario no encontrado.')
+        return redirect(url_for('home'))
+    
+    return render_template('miperfil.html', customer=customer)
+
 
 @app.route('/agregar_al_carrito/<int:producto_id>')
 def agregar_al_carrito(producto_id):
-    if 'cliente_id' not in session:
+    if 'customer_id' not in session:
         flash('Por favor inicia sesión para agregar productos al carrito.')
         return redirect(url_for('user_login'))
 
-    cliente_id = session['cliente_id']
+    cliente_id = session['customer_id']
     producto = Producto.query.get_or_404(producto_id)
     pedido = Pedido.query.filter_by(cliente_id=cliente_id, total=0).first()
 
@@ -149,11 +158,11 @@ def agregar_al_carrito(producto_id):
 
 @app.route('/mi-carrito')
 def user_carrito():
-    if 'cliente_id' not in session:
+    if 'customer_id' not in session:
         return redirect(url_for('user_login'))
 
-    cliente_id = session['cliente_id']
-    pedido = Pedido.query.filter_by(cliente_id=cliente_id, total=0).first()
+    customer_id = session['customer_id']
+    pedido = Pedido.query.filter_by(customer_id=customer_id, total=0).first()
     detalles_pedido = []
 
     if pedido:
@@ -218,10 +227,10 @@ def admin_eliminar_producto(producto_id):
 @app.route('/registro', methods=['GET', 'POST'])
 def user_registro():
     if request.method == 'POST':
-        nombre = request.form['nombre']
+        name = request.form['name']
         email = request.form['email']
-        telefono = request.form['telefono']
-        direccion = request.form['direccion']
+        phone = request.form['phone']
+        address = request.form['address']
         password = request.form['password']
         
         # Verificar si el email ya está registrado
@@ -232,10 +241,10 @@ def user_registro():
         
         # Crear nuevo cliente
         nuevo_cliente = Cliente(
-            nombre=nombre, 
+            name=name, 
             email=email, 
-            telefono=telefono, 
-            direccion=direccion, 
+            phone=phone, 
+            address=address, 
             password=generate_password_hash(password)
         )
         db.session.add(nuevo_cliente)
@@ -252,7 +261,7 @@ def user_login():
         password = request.form['password']
         cliente = Cliente.query.filter_by(email=email).first()
         if cliente and check_password_hash(cliente.password, password):
-            session['cliente_id'] = cliente.id
+            session['customer_id'] = cliente.id
             return redirect(url_for('user_perfil'))
         else:
             flash('Correo o contraseña incorrectos')
@@ -317,9 +326,32 @@ def admin_login():
             flash('Correo o contraseña incorrectos')
     return render_template('admin.html')
 
-@app.route('/logout')
+@app.route('/admin_logout')
 def logout():
     session.pop('admin_id', None)
+    return redirect(url_for('index'))
+
+@app.route('/borrar_cuenta', methods=['POST'])
+def borrar_cuenta():
+    if 'customer_id' not in session:
+        return redirect(url_for('user_login'))
+    
+    customer_id = session['customer_id']
+    customer = Cliente.query.get(customer_id)
+    
+    if customer:
+        db.session.delete(customer)
+        db.session.commit()
+        session.pop('customer_id', None)
+        flash('Tu cuenta ha sido eliminada correctamente.')
+    else:
+        flash('Error al intentar eliminar la cuenta.')
+    
+    return redirect(url_for('home'))
+
+@app.route('/logout')
+def user_logout():
+    session.pop('customer_id', None)
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

@@ -37,16 +37,16 @@
           <img src="{{ url_for('static', filename=detalle.producto.imagen) }}" class="card-img-top"
             alt="{{ detalle.producto.nombre }}">
           <div class="card-body">
-            <h5 class="card-title">{{ detalle.producto.nombre }}</h5>
+            <h5 class="card-title">{{ detalle.producto.name }}</h5>
             <p class="card-text">{{ detalle.producto.descripcion }}</p>
             <p class="card-text">
-              <strong>Precio Unitario:</strong> ${{ detalle.precio_unitario }}
+              <strong>Precio Unitario:</strong> ${{ detalle.unit_price }}
             </p>
             <p class="card-text">
-              <strong>Cantidad:</strong> {{ detalle.cantidad }}
+              <strong>Cantidad:</strong> {{ detalle.amount }}
             </p>
             <p class="card-text">
-              <strong>Total:</strong> ${{ detalle.precio_unitario * detalle.cantidad }}
+              <strong>Total:</strong> ${{ detalle.unit_price * detalle.amount }}
             </p>
             <a href="{{ url_for('eliminar_del_carrito', detalle_id=detalle.id) }}" class="btn btn-danger">Eliminar</a>
           </div>

@@ -34,12 +34,12 @@
         {% for producto in productos %}
         <div class="col-md-4 mb-4">
           <div class="card">
-            <img src="{{ url_for('static', filename=producto.imagen) }}" class="card-img-top" alt="{{ producto.nombre }}">
+            <img src="{{ url_for('static', filename=producto.picture) }}" class="card-img-top" alt="{{ producto.nombre }}">
             <div class="card-body">
-              <h5 class="card-title">{{ producto.nombre }}</h5>
-              <p class="card-text">{{ producto.descripcion }}</p>
+              <h5 class="card-title">{{ producto.name }}</h5>
+              <p class="card-text">{{ producto.details }}</p>
               <p class="card-text">
-                <strong>Precio:</strong> ${{ producto.precio }}
+                <strong>Precio:</strong> ${{ producto.unit_price }}
               </p>
               <p class="card-text">
                 <strong>Stock:</strong> {{ producto.stock }}

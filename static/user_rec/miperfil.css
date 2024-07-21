@@ -67,10 +67,7 @@ nav ul li a:focus {
 
 main {
   flex: 1; /* Esto hace que main tome el espacio disponible */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem;
+  padding: 2rem;
   text-align: center;
 }
 
@@ -79,6 +76,24 @@ main {
     color: #111;
     margin-bottom: 1rem;
     font-family: 'Anton SC';
+}
+
+.profile-info {
+    text-align: left;
+    margin-top: 1rem;
+    background-color: #e0e0e0;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.profile-actions {
+    text-align: center;
 }
 
 footer {
