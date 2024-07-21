@@ -354,5 +354,41 @@ def user_logout():
     session.pop('customer_id', None)
     return redirect(url_for('index'))
 
+@app.route('/editar_perfil')
+def editar_perfil():
+    if 'customer_id' not in session:
+        return redirect(url_for('user_login'))
+    
+    customer_id = session['customer_id']
+    customer = Cliente.query.get(customer_id)
+    
+    if not customer:
+        flash('Usuario no encontrado.')
+        return redirect(url_for('home'))
+    
+    return render_template('useredit.html', customer=customer)
+
+@app.route('/actualizar_perfil', methods=['POST'])
+def actualizar_perfil():
+    if 'customer_id' not in session:
+        return redirect(url_for('user_login'))
+
+    customer_id = session['customer_id']
+    customer = Cliente.query.get(customer_id)
+
+    if not customer:
+        flash('Usuario no encontrado.')
+        return redirect(url_for('home'))
+
+    customer.name = request.form['name']
+    customer.email = request.form['email']
+    customer.phone = request.form['phone']
+    customer.address = request.form['address']
+
+    db.session.commit()
+    flash('Perfil actualizado correctamente.')
+    return redirect(url_for('user_perfil'))
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

@@ -1,18 +1,14 @@
-/* Estilos generales */
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #f0f0f0;
 }
 
 body {
   font-family: 'Anton SC';
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
 }
 
 header {
@@ -30,13 +26,14 @@ nav {
 
 .logo {
   margin-left: 1rem;
-  margin-bottom: 10px;
+  margin-bottom:10px;
 }
 
 .logo-img {
   height: 50px;
   filter: invert(100%);
 }
+
 
 nav ul {
   list-style: none;
@@ -60,6 +57,7 @@ nav ul li a {
   font-family: 'Anton SC';
 }
 
+
 nav ul li a:hover,
 nav ul li a:focus {
   background-color: #555;
@@ -68,26 +66,25 @@ nav ul li a:focus {
   text-decoration: none;
 }
 
-main {
-  flex: 1;
-  padding: 2rem;
-  text-align: center;
-  font-family: 'Open Sans', sans-serif;
-}
 
-.table {
-  margin-top: 1rem;
-}
-
-footer {
-  background-color: #333;
-  color: white;
-  padding: 1rem;
-  font-family: 'Open Sans', sans-serif;
-  text-align: center;
-  width: 100%;
-}
-
-.container .mb-4 {
-  font-family: 'Anton SC';
-}
+  
+  main {
+    flex: 1;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2em;
+    color: #111;
+    margin-bottom: 1rem;
+  }
+  
+  footer {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+  }
+  

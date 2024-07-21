@@ -38,7 +38,7 @@
         
         <div class="profile-actions mt-4">
             <a href="{{ url_for('user_logout') }}" class="btn btn-outline-primary">Cerrar Sesión</a>
-            <a href="#" class="btn btn-outline-warning">Editar Perfil</a>
+            <a href="{{ url_for('editar_perfil') }}" class="btn btn-outline-warning">Editar Perfil</a>
             <form method="POST" action="{{ url_for('borrar_cuenta') }}" style="display:inline;">
                 <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');">Borrar Cuenta</button>
             </form>
