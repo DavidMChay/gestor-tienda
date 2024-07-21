@@ -20,36 +20,9 @@
             </ul>
         </nav>
     </header>
-    <main class="d-flex justify-content-center align-items-center">
+    <main class="d-flex justify-content-center align-items-center flex-column">
         <div class="form-container">
             <h1 class="mb-4">Agregar Nuevo Producto</h1>
-            <form method="POST" action="{{ url_for('admin_agregar_producto') }}" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="descripcion">Descripción:</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="nombre">Categoria:</label>
-                    <input type="text" class="form-control" id="categoria" name="categoria" required>
-                </div>
-                <div class="form-group">
-                    <label for="precio">Precio:</label>
-                    <input type="number" class="form-control" id="precio" name="precio" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="stock">Cantidad en Stock:</label>
-                    <input type="number" class="form-control" id="stock" name="stock" required>
-                </div>
-                <div class="form-group">
-                    <label for="imagen">Imagen del Producto:</label>
-                    <input type="file" class="form-control-file" id="imagen" name="imagen" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Agregar Producto</button>
-            </form>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     <div class="alert alert-danger mt-4">
@@ -59,6 +32,33 @@
                     </div>
                 {% endif %}
             {% endwith %}
+            <form method="POST" action="{{ url_for('admin_agregar_producto') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea class="form-control" id="details" name="details" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Categoria:</label>
+                    <input type="text" class="form-control" id="category" name="category" required>
+                </div>
+                <div class="form-group">
+                    <label for="precio">Precio:</label>
+                    <input type="number" class="form-control" id="unit_price" name="unit_price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="stock">Cantidad en Stock:</label>
+                    <input type="number" class="form-control" id="stock" name="stock" required>
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Imagen del Producto:</label>
+                    <input type="file" class="form-control-file" id="picture" name="picture" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar Producto</button>
+            </form>
         </div>
     </main>
     <footer>

@@ -36,6 +36,7 @@ class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     details = db.Column(db.String)
+    unit_price = db.Column(db.Integer, nullable=False)
     stock = db.Column(db.Integer, nullable=False)
     added_date = db.Column(db.DateTime, default=db.func.current_timestamp())
     picture = db.Column(db.String)
@@ -262,34 +263,46 @@ def user_login():
 def admin_agregar_producto():
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
+    
     if request.method == 'POST':
-        nombre = request.form['nombre']
-        descripcion = request.form['descripcion']
-        precio = request.form['precio']
-        stock = request.form['stock']
-        imagen = request.files['imagen']
-        categoria = request.form['categoria']
+        try:
+            name = request.form['name']
+            details = request.form['details']
+            unit_price = request.form['unit_price']
+            stock = request.form['stock']
+            picture = request.files['picture']
+            category = request.form['category']
 
-        # Verificar si el producto ya existe
-        producto_existente = Producto.query.filter_by(nombre=nombre).first()
-        if producto_existente:
-            flash('El producto ya existe.')
+            # Verificar si el producto ya existe
+            producto_existente = Producto.query.filter_by(name=name).first()
+            if producto_existente:
+                flash('El producto ya existe.')
+                return redirect(url_for('admin_agregar_producto'))
+
+            # Guardar la imagen en el servidor
+            if picture and picture.filename != '':
+                filename = secure_filename(picture.filename)
+                picture.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                imagen_path = 'uploads/' + filename
+            else:
+                imagen_path = None
+
+            # Agregar nuevo producto a la base de datos
+            nuevo_producto = Producto(name=name, details=details, unit_price=unit_price, stock=stock, picture=imagen_path, category=category)
+            db.session.add(nuevo_producto)
+            db.session.commit()
+
+            flash('Producto agregado exitosamente.')
             return redirect(url_for('admin_agregar_producto'))
-
-        # Guardar la imagen en el servidor
-        if imagen:
-            filename = secure_filename(imagen.filename)
-            imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            imagen_path = 'uploads/' + filename
-        else:
-            imagen_path = None
-
-        # Agregar nuevo producto a la base de datos
-        nuevo_producto = Producto(nombre=nombre, descripcion=descripcion, precio=precio, stock=stock, imagen=imagen_path, categoria=categoria)
-        db.session.add(nuevo_producto)
-        db.session.commit()
-        return redirect(url_for('admin_panel'))
+        
+        except Exception as e:
+            # Manejar el error y proporcionar información de depuración
+            db.session.rollback()
+            flash(f'Error al agregar producto: {e}')
+            return redirect(url_for('admin_agregar_producto'))
+    
     return render_template('adminagregarprod.html')
+
 
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
@@ -297,7 +310,7 @@ def admin_login():
         email = request.form['email']
         password = request.form['password']
         admin = Administrador.query.filter_by(email=email).first()
-        if admin and check_password_hash(admin.contrasena, password):
+        if admin and check_password_hash(admin.password, password):
             session['admin_id'] = admin.id
             return redirect(url_for('admin_panel'))
         else:
