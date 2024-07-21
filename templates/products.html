@@ -12,49 +12,50 @@
 </head>
 
 <body>
-  <header>
-    <nav>
-      <div class="logo">
-        <a href="{{ url_for('home') }}">
-          <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" class="logo-img" />
-        </a>
-      </div>
-      <ul>
-        <li><a href="{{ url_for('home') }}">Inicio</a></li>
-        <li><a href="{{ url_for('productos') }}">Productos</a></li>
-        <li><a href="{{ url_for('user_carrito') }}">Mi carrito</a></li>
-        <li><a href="{{ url_for('user_perfil') }}">Mi perfil</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main class="container mt-4">
-    <h1 class="title">Lista de Productos</h1>
-    <div class="row">
-      {% for producto in productos %}
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="{{ url_for('static', filename=producto.imagen) }}" class="card-img-top" alt="{{ producto.nombre }}">
-          <div class="card-body">
-            <h5 class="card-title">{{ producto.nombre }}</h5>
-            <p class="card-text">{{ producto.descripcion }}</p>
-            <p class="card-text">
-              <strong>Precio:</strong> ${{ producto.precio }}
-            </p>
-            <p class="card-text">
-              <strong>Stock:</strong> {{ producto.stock }}
-            </p>
-            <a href="{{ url_for('agregar_al_carrito', producto_id=producto.id) }}" class="btn btn-success">Agregar al
-              carrito</a>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
+  <div class="d-flex flex-column min-vh-100">
+    <header>
+      <nav>
+        <div class="logo">
+          <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" class="logo-img" />
+          </a>
+        </div>
+        <ul>
+          <li><a href="{{ url_for('home') }}">Inicio</a></li>
+          <li><a href="{{ url_for('productos') }}">Productos</a></li>
+          <li><a href="{{ url_for('user_carrito') }}">Mi carrito</a></li>
+          <li><a href="{{ url_for('user_perfil') }}">Mi perfil</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="container mt-4 flex-grow-1">
+      <h1 class="title">Lista de Productos</h1>
+      <div class="row">
+        {% for producto in productos %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="{{ url_for('static', filename=producto.imagen) }}" class="card-img-top" alt="{{ producto.nombre }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ producto.nombre }}</h5>
+              <p class="card-text">{{ producto.descripcion }}</p>
+              <p class="card-text">
+                <strong>Precio:</strong> ${{ producto.precio }}
+              </p>
+              <p class="card-text">
+                <strong>Stock:</strong> {{ producto.stock }}
+              </p>
+              <a href="{{ url_for('agregar_al_carrito', producto_id=producto.id) }}" class="btn btn-success">Agregar al carrito</a>
+              <a href="#" class="btn btn-primary">Ver detalles</a>
+            </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-  </main>
-  <footer>
-    <p>&copy; 2024 Precision Kicks</p>
-  </footer>
+    </main>
+    <footer>
+      <p>&copy; 2024 Precision Kicks</p>
+    </footer>
+  </div>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

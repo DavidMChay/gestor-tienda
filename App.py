@@ -101,13 +101,13 @@ def productos():
     productos = Producto.query.all() 
     return render_template('products.html', productos=productos)
 
-@app.route('/admin/panel')
+@app.route('/admin')
 def admin_panel():
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
     return render_template('paneladmin.html')
 
-@app.route('/admin/panel/agregar')
+@app.route('/admin/agregar')
 def admin_agregar():
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
@@ -173,14 +173,14 @@ def eliminar_del_carrito(detalle_id):
     return redirect(url_for('user_carrito'))
 
 
-@app.route('/admin/panel/gestionar_productos')
+@app.route('/admin/gestionar_productos')
 def admin_listar_productos():
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
     productos = Producto.query.all()
     return render_template('adminlspd.html', productos=productos)
 
-@app.route('/admin/panel/editar/<int:producto_id>', methods=['GET', 'POST'])
+@app.route('/admin/editar/<int:producto_id>', methods=['GET', 'POST'])
 def admin_editar_producto(producto_id):
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
@@ -203,7 +203,7 @@ def admin_editar_producto(producto_id):
         return redirect(url_for('admin_listar_productos'))
     return render_template('admin_edit_product.html', producto=producto)
 
-@app.route('/admin/panel/eliminar/<int:producto_id>', methods=['POST'])
+@app.route('/admin/eliminar/<int:producto_id>', methods=['POST'])
 def admin_eliminar_producto(producto_id):
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
@@ -258,7 +258,7 @@ def user_login():
     return render_template('userlogin.html')
 
 
-@app.route('/admin/panel/agregar', methods=['GET', 'POST'])
+@app.route('/admin/agregar', methods=['GET', 'POST'])
 def admin_agregar_producto():
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
