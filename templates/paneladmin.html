@@ -9,30 +9,37 @@
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{url_for('admin_panel')}}">Inicio</a></li>
-                <li><a href="{{url_for('admin_listar_productos')}}">Administrar Productos</a></li>
-                <li><a href="{{url_for('productos')}}">Administrar Pedidos</a></li>
-                <li><a href="{{url_for('logout')}}">Salir</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="panel-container">
-            <h1>Bienvenido al Panel de Administración</h1>
-            <p>Accede a las funcionalidades administrativas aquí.</p>
-            <div class="admin-options">
-                <a class="admin-option" href="{{ url_for('admin_agregar') }}">Agregar productos nuevos</a>
-                <a class="admin-option" href="{{ url_for('admin_listar_productos') }}">Gestionar y editar productos</a>
-                <!-- Puedes agregar más opciones aquí -->
-                <a class="admin-option" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+    <div class="d-flex flex-column min-vh-100">
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{{url_for('admin_panel')}}">Inicio</a></li>
+                    <li><a href="{{url_for('admin_listar_productos')}}">Administrar Productos</a></li>
+                    <li><a href="{{url_for('admin_listar_clientes')}}">Administrar Clientes</a></li>
+                    <li><a href="{{url_for('productos')}}">Administrar Pedidos</a></li>
+                    <li><a href="{{url_for('logout')}}">Salir</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main class="flex-grow-1">
+            <div class="panel-container">
+                <h1>Bienvenido al Panel de Administración</h1>
+                <p>Accede a las funcionalidades administrativas aquí.</p>
+                <div class="admin-options">
+                    <a class="admin-option" href="{{ url_for('admin_agregar') }}">Agregar productos nuevos</a>
+                    <a class="admin-option" href="{{ url_for('admin_listar_productos') }}">Gestionar y editar productos</a>
+                    <a class="admin-option" href="{{ url_for('admin_listar_clientes') }}">Gestionar usuarios</a>
+                    <a class="admin-option" href="{{ url_for('admin_listar_productos') }}">Gestionar pedidos</a>
+                    <a class="admin-option" href="{{ url_for('admin_listar_productos') }}">Añadir administradores</a>
+                    <a class="admin-option" href="{{ url_for('admin_listar_productos') }}">Gestionar y editar administradores</a>
+                    <a class="admin-option" href="{{ url_for('admin_listar_auditorias') }}">Auditorias de cambios</a>
+                    <a class="admin-option" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                </div>
             </div>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2024 Precision Kicks</p>
-    </footer>
+        </main>
+        <footer>
+            <p>&copy; 2024 Precision Kicks</p>
+        </footer>
+    </div>
 </body>
 </html>

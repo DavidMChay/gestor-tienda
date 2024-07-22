@@ -1,0 +1,83 @@
+/* static/admin_rec/adminauditorias.css */
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+body {
+  font-family: 'Anton SC';
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s;
+  font-size: 1.2rem;
+  font-family: 'Anton SC';
+}
+
+nav ul li a:hover,
+nav ul li a:focus {
+  background-color: #555;
+  border-radius: 4px;
+  color: white;
+  text-decoration: none;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.table {
+  margin-top: 1rem;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  width: 100%;
+}
+
+.container .mb-4 {
+  font-family: 'Anton SC';
+}

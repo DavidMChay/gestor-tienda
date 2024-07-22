@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precision Kicks | Gestionar Productos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='admin_rec/adminlspd.css') }}">
+    <title>Precision Kicks | Gestionar Auditorías</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_rec/adminauditorias.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
@@ -24,37 +24,26 @@
             </nav>
         </header>
         <main class="container mt-4 flex-grow-1">
-            <h1 class="mb-4">Gestionar Productos</h1>
+            <h1 class="mb-4">Gestionar Auditorías</h1>
             
-            <table id="productos-table" class="display">
+            <table id="auditorias-table" class="display">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Categoría</th>
-                        <th>Imagen</th>
-                        <th>Acciones</th>
+                        <th>Entidad</th>
+                        <th>Operación</th>
+                        <th>Fecha</th>
+                        <th>Detalles</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for producto in productos %}
+                    {% for auditoria in auditorias %}
                         <tr>
-                            <td>{{ producto.id }}</td>
-                            <td>{{ producto.name }}</td>
-                            <td>{{ producto.details }}</td>
-                            <td>{{ producto.unit_price }}</td>
-                            <td>{{ producto.stock }}</td>
-                            <td>{{ producto.category }}</td>
-                            <td><img src="{{ url_for('static', filename=producto.picture) }}" alt="{{ producto.name }}" style="height: 50px;"></td>
-                            <td>
-                                <a href="{{ url_for('admin_editar_producto', producto_id=producto.id) }}" class="btn btn-warning btn-sm">Editar</a>
-                                <form method="POST" action="{{ url_for('admin_eliminar_producto', producto_id=producto.id) }}" style="display: inline;">
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">Eliminar</button>
-                                </form>
-                            </td>
+                            <td>{{ auditoria.id }}</td>
+                            <td>{{ auditoria.entity }}</td>
+                            <td>{{ auditoria.operation }}</td>
+                            <td>{{ auditoria.date }}</td>
+                            <td>{{ auditoria.details }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -70,7 +59,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready(function() {
-            $('#productos-table').DataTable({
+            $('#auditorias-table').DataTable({
                 "paging": true,
                 "searching": true,
                 "ordering": true,

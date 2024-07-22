@@ -389,6 +389,32 @@ def actualizar_perfil():
     flash('Perfil actualizado correctamente.')
     return redirect(url_for('user_perfil'))
 
+@app.route('/admin/listar_clientes')
+def admin_listar_clientes():
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    
+    clientes = Cliente.query.all()
+    return render_template('adminlsuser.html', clientes=clientes)
+
+@app.route('/admin/eliminar_cliente/<int:cliente_id>', methods=['POST'])
+def admin_eliminar_cliente(cliente_id):
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    
+    cliente = Cliente.query.get_or_404(cliente_id)
+    db.session.delete(cliente)
+    db.session.commit()
+    flash('Cliente eliminado correctamente.')
+    return redirect(url_for('admin_listar_clientes'))
+
+@app.route('/admin/listar_auditorias')
+def admin_listar_auditorias():
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    
+    auditorias = Auditoria.query.all()
+    return render_template('admin_auditorias.html', auditorias=auditorias)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
