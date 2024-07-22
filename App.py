@@ -414,7 +414,7 @@ def admin_listar_auditorias():
         return redirect(url_for('admin_login'))
     
     auditorias = Auditoria.query.all()
-    return render_template('admin_auditorias.html', auditorias=auditorias)
+    return render_template('adminlsaud.html', auditorias=auditorias)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
