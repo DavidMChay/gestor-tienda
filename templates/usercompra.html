@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Kicks | Confirmar Compra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_rec/usercompra.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='confirmar_compra_rec/confirmar_compra.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
+</head>
+<body>
+    <div class="d-flex flex-column min-vh-100">
+        <header>
+            <nav>
+                <div class="logo">
+                    <a href="{{ url_for('home') }}">
+                        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" class="logo-img" />
+                    </a>
+                </div>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('productos') }}">Productos</a></li>
+                    <li><a href="{{ url_for('user_carrito') }}">Mi carrito</a></li>
+                    <li><a href="{{ url_for('user_perfil') }}">Mi perfil</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main class="container mt-4 flex-grow-1">
+            <h1 class="title">Confirmar Compra</h1>
+            <div class="row">
+                {% for detalle in detalles_pedido %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ url_for('static', filename=detalle.product.picture) }}" class="card-img-top"
+                            alt="{{ detalle.product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ detalle.product.name }}</h5>
+                            <p class="card-text">{{ detalle.product.details }}</p>
+                            <p class="card-text">
+                                <strong>Precio Unitario:</strong> ${{ detalle.unit_price }}
+                            </p>
+                            <p class="card-text">
+                                <strong>Cantidad:</strong> {{ detalle.amount }}
+                            </p>
+                            <p class="card-text">
+                                <strong>Total:</strong> ${{ detalle.unit_price * detalle.amount }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <form method="POST" action="{{ url_for('procesar_compra') }}" class="mt-4">
+                <div class="form-group">
+                    <label for="card_number">Número de Tarjeta:</label>
+                    <input type="text" class="form-control" id="card_number" name="card_number" required>
+                </div>
+                <div class="form-group">
+                    <label for="card_expiry">Fecha de Expiración:</label>
+                    <input type="text" class="form-control" id="card_expiry" name="card_expiry" required>
+                </div>
+                <div class="form-group">
+                    <label for="card_cvc">CVC:</label>
+                    <input type="text" class="form-control" id="card_cvc" name="card_cvc" required>
+                </div>
+                <button type="submit" class="btn btn-success">Pagar</button>
+                <a href="{{ url_for('cancelar_compra') }}" class="btn btn-danger">Cancelar</a>
+            </form>
+        </main>
+        <footer>
+            <p>&copy; 2024 Precision Kicks</p>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

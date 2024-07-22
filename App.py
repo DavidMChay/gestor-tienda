@@ -431,5 +431,75 @@ def admin_listar_auditorias():
     auditorias = Auditoria.query.all()
     return render_template('adminlsaud.html', auditorias=auditorias)
 
+@app.route('/confirmar_compra')
+def confirmar_compra():
+    if 'customer_id' not in session:
+        flash('Por favor inicia sesión para confirmar tu compra.')
+        return redirect(url_for('user_login'))
+
+    customer_id = session['customer_id']
+    detalles_pedido = MyCar.query.filter_by(customer_id=customer_id).all()
+
+    return render_template('usercompra.html', detalles_pedido=detalles_pedido)
+
+@app.route('/procesar_compra', methods=['POST'])
+def procesar_compra():
+    if 'customer_id' not in session:
+        flash('Por favor inicia sesión para confirmar tu compra.')
+        return redirect(url_for('user_login'))
+
+    customer_id = session['customer_id']
+    detalles_pedido = MyCar.query.filter_by(customer_id=customer_id).all()
+
+    if not detalles_pedido:
+        flash('Tu carrito está vacío.')
+        return redirect(url_for('productos'))
+
+    # Verificar el stock antes de procesar la compra
+    for detalle in detalles_pedido:
+        producto = Producto.query.get(detalle.product_id)
+        if producto.stock < detalle.amount:
+            flash(f'No hay suficiente stock para {producto.name}. Solo hay {producto.stock} en inventario.')
+            return redirect(url_for('confirmar_compra'))
+
+    # Procesar la compra y mover los datos a las tablas definitivas Orders y OrdersDetails
+    nuevo_pedido = Pedido(customer_id=customer_id, total=sum(detalle.unit_price * detalle.amount for detalle in detalles_pedido))
+    db.session.add(nuevo_pedido)
+    db.session.commit()
+
+    for detalle in detalles_pedido:
+        producto = Producto.query.get(detalle.product_id)
+        producto.stock -= detalle.amount  # Reducir el stock del producto
+        nuevo_detalle = DetallePedido(
+            order_id=nuevo_pedido.id,
+            product_id=detalle.product_id,
+            amount=detalle.amount,
+            unit_price=detalle.unit_price
+        )
+        db.session.add(nuevo_detalle)
+        db.session.delete(detalle)
+
+    db.session.commit()
+    
+    flash('Pago realizado con éxito.')
+    return redirect(url_for('productos'))
+
+@app.route('/cancelar_compra')
+def cancelar_compra():
+    if 'customer_id' not in session:
+        flash('Por favor inicia sesión para cancelar tu compra.')
+        return redirect(url_for('user_login'))
+
+    customer_id = session['customer_id']
+    detalles_pedido = MyCar.query.filter_by(customer_id=customer_id).all()
+
+    for detalle in detalles_pedido:
+        db.session.delete(detalle)
+
+    db.session.commit()
+    
+    flash('Compra cancelada y carrito vacío.')
+    return redirect(url_for('productos'))
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
