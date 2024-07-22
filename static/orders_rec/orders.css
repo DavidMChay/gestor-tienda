@@ -1,9 +1,18 @@
-/* static/css/styles.css */
-body {
-    font-family: 'Roboto', sans-serif;
+/* static/orders_rec/orders.css */
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
+}
+
+body {
+    font-family: 'Anton SC';
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -11,6 +20,12 @@ header {
     color: white;
     padding: 1rem;
     text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 nav ul {
@@ -31,16 +46,23 @@ nav ul li a {
     text-decoration: none;
     padding: 0.5rem 1rem;
     transition: background-color 0.3s;
+    font-size: 1.2rem;
+    font-family: 'Anton SC';
 }
 
-nav ul li a:hover {
+nav ul li a:hover,
+nav ul li a:focus {
     background-color: #555;
     border-radius: 4px;
+    color: white;
+    text-decoration: none;
 }
 
 main {
+    flex: 1;
     padding: 2rem;
     text-align: center;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .container {
@@ -53,6 +75,7 @@ main {
     font-size: 2em;
     color: #111;
     margin-bottom: 1rem;
+    font-family: 'Anton SC';
 }
 
 footer {
@@ -60,7 +83,9 @@ footer {
     color: white;
     padding: 1rem;
     text-align: center;
-    position: fixed;
     width: 100%;
-    bottom: 0;
+}
+
+.d-flex{
+    background-color: #f0f0f0;
 }

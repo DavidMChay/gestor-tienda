@@ -61,7 +61,7 @@ class Pedido(db.Model):
     detalles = db.relationship('DetallePedido', backref='order', lazy=True)
     
 class DetallePedido(db.Model):
-    __tablename__ = 'ordersDetails'
+    __tablename__ = 'ordersdetails'
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
@@ -83,6 +83,15 @@ class Administrador(db.Model):
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
+
+class MyCar(db.Model):
+    __tablename__ = 'mycar'
+    id = db.Column(db.Integer, primary_key=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    unit_price = db.Column(db.Float, nullable=False)
+    product = db.relationship('Producto', backref=db.backref('mycar', lazy=True))
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -137,18 +146,12 @@ def agregar_al_carrito(producto_id):
 
     cliente_id = session['customer_id']
     producto = Producto.query.get_or_404(producto_id)
-    pedido = Pedido.query.filter_by(cliente_id=cliente_id, total=0).first()
 
-    if not pedido:
-        pedido = Pedido(cliente_id=cliente_id, total=0)
-        db.session.add(pedido)
-        db.session.commit()
-
-    detalle = DetallePedido.query.filter_by(pedido_id=pedido.id, producto_id=producto_id).first()
+    detalle = MyCar.query.filter_by(customer_id=cliente_id, product_id=producto_id).first()
     if detalle:
-        detalle.cantidad += 1
+        detalle.amount += 1
     else:
-        detalle = DetallePedido(pedido_id=pedido.id, producto_id=producto_id, cantidad=1, precio_unitario=producto.precio)
+        detalle = MyCar(customer_id=cliente_id, product_id=producto_id, amount=1, unit_price=producto.unit_price)
         db.session.add(detalle)
 
     db.session.commit()
@@ -156,32 +159,44 @@ def agregar_al_carrito(producto_id):
     return redirect(url_for('productos'))
 
 
-@app.route('/mi-carrito')
+@app.route('/micarrito')
 def user_carrito():
     if 'customer_id' not in session:
         return redirect(url_for('user_login'))
 
     customer_id = session['customer_id']
-    pedido = Pedido.query.filter_by(customer_id=customer_id, total=0).first()
-    detalles_pedido = []
-
-    if pedido:
-        detalles_pedido = DetallePedido.query.filter_by(pedido_id=pedido.id).all()
+    detalles_pedido = MyCar.query.filter_by(customer_id=customer_id).all()
 
     return render_template('orders.html', detalles_pedido=detalles_pedido)
 
 @app.route('/eliminar_del_carrito/<int:detalle_id>')
 def eliminar_del_carrito(detalle_id):
-    if 'cliente_id' not in session:
+    if 'customer_id' not in session:
         flash('Por favor inicia sesión para eliminar productos del carrito.')
         return redirect(url_for('user_login'))
 
-    detalle = DetallePedido.query.get_or_404(detalle_id)
+    detalle = MyCar.query.get_or_404(detalle_id)
     db.session.delete(detalle)
     db.session.commit()
     flash('Producto eliminado del carrito.')
     return redirect(url_for('user_carrito'))
 
+@app.route('/actualizar_cantidad/<int:detalle_id>', methods=['POST'])
+def actualizar_cantidad(detalle_id):
+    if 'customer_id' not in session:
+        flash('Por favor inicia sesión para actualizar la cantidad del producto.')
+        return redirect(url_for('user_login'))
+
+    cantidad = int(request.form['cantidad'])
+    if cantidad < 1:
+        flash('La cantidad debe ser al menos 1.')
+        return redirect(url_for('user_carrito'))
+
+    detalle = MyCar.query.get_or_404(detalle_id)
+    detalle.amount = cantidad
+    db.session.commit()
+    flash('Cantidad actualizada correctamente.')
+    return redirect(url_for('user_carrito'))
 
 @app.route('/admin/gestionar_productos')
 def admin_listar_productos():
