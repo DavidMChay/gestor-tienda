@@ -41,6 +41,7 @@ class Producto(db.Model):
     added_date = db.Column(db.DateTime, default=db.func.current_timestamp())
     picture = db.Column(db.String)
     category = db.Column(db.String, nullable=False)
+    objects = db.relationship('DetallePedido', backref='products', lazy=True)
 
 class Cliente(db.Model):
     __tablename__ = 'customers'
@@ -50,6 +51,7 @@ class Cliente(db.Model):
     phone = db.Column(db.String)
     address = db.Column(db.String)
     password = db.Column(db.String, nullable=False)
+    pedidos = db.relationship('Pedido', backref='cliente', lazy=True)
     
 class Pedido(db.Model):
     __tablename__ = 'orders'
@@ -58,7 +60,6 @@ class Pedido(db.Model):
     order_date = db.Column(db.DateTime, default=db.func.current_timestamp())
     total = db.Column(db.Float, nullable=False)
     customer = db.relationship('Cliente', backref=db.backref('orders', lazy=True))
-    detalles = db.relationship('DetallePedido', backref='order', lazy=True)
     
 class DetallePedido(db.Model):
     __tablename__ = 'ordersdetails'
@@ -500,6 +501,21 @@ def cancelar_compra():
     
     flash('Compra cancelada y carrito vacío.')
     return redirect(url_for('productos'))
+
+@app.route('/admin/listar_pedidos')
+def admin_listar_pedidos():
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+
+    pedidos = Pedido.query.all()
+
+    for pedido in pedidos:
+        pedido.detalles = DetallePedido.query.filter_by(order_id=pedido.id).all()
+        pedido.cliente = Cliente.query.get(pedido.customer_id)
+
+    return render_template('adminlspdd.html', pedidos=pedidos)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

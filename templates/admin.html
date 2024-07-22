@@ -35,7 +35,7 @@
                 </div>
                 <button type="submit">Iniciar Sesión</button>
             </form>
-            <p>No conozco mi perfil</p>
+            <p class="text-button" onclick="showProfileInfo()">No conozco mi perfil</p>
             {% with messages = get_flashed_messages() %}
               {% if messages %}
                 <ul class="messages">
@@ -46,9 +46,25 @@
               {% endif %}
             {% endwith %}
         </div>
+        <div id="profile-info-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeProfileInfo()">&times;</span>
+                <p>Para conocer tu información de inicio de sesión, contacta directamente con el administrador. De igual modo, si necesitas cambiar tu contraseña, solicitala con el administrador.</p>
+                <button onclick="closeProfileInfo()">OK</button>
+            </div>
+        </div>
     </main>
     <footer>
         <p>&copy; 2024 Precision Kicks</p>
     </footer>
+    <script>
+        function showProfileInfo() {
+            document.getElementById('profile-info-modal').style.display = 'block';
+        }
+
+        function closeProfileInfo() {
+            document.getElementById('profile-info-modal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
