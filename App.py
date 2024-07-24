@@ -10,9 +10,10 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
+from datetime import timedelta
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24) 
+app.secret_key = os.getenv('SECRET_KEY', 'El_ZorrogayC0m3hombres!')
 
 # Información de conexión proporcionada por Supabase
 user = "postgres.tidxgrbtrrqbuxnkmwji"
@@ -29,6 +30,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'uploads')
 db = SQLAlchemy(app)
+
+# Configuración de la sesión
+app.config['SESSION_PERMANENT'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+app.config.update(
+    SESSION_COOKIE_SECURE=True,  # Solo para HTTPS, puedes cambiar a False si estás desarrollando localmente
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+)
 
 # --MODELOS DE LAS TABLAS DE LA BASE DE DATOS--
 class Producto(db.Model):
