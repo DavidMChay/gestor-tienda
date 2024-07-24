@@ -33,7 +33,7 @@ db = SQLAlchemy(app)
 
 # Configuración de la sesión
 app.config['SESSION_PERMANENT'] = True
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=90)
 app.config.update(
     SESSION_COOKIE_SECURE=True,  # Solo para HTTPS, puedes cambiar a False si estás desarrollando localmente
     SESSION_COOKIE_HTTPONLY=True,
