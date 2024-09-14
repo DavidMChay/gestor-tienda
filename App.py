@@ -16,9 +16,9 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'El_ZorrogayC0m3hombres!')
 
 # Información de conexión proporcionada por Supabase
-user = "postgres.tidxgrbtrrqbuxnkmwji"
+user = "postgres.qwiocchfheqthxfspevr"
 password = "ZorroPuto69!"  # Reemplaza con la contraseña correcta
-host = "aws-0-us-west-1.pooler.supabase.com"
+host = "aws-0-us-east-1.pooler.supabase.com"
 port = "6543"
 dbname = "postgres"
 
@@ -106,6 +106,7 @@ class MyCar(db.Model):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 # --DEFINICION DE LAS RUTAS
 # ENDPOINTS PAGINAS
 @app.route('/')
