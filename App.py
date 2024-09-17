@@ -3,6 +3,7 @@
 #2. .\env\Scripts\activate
 #ACTIVAR SERVDOR DE PYTHON
 #1. flask run --port 8000
+#2. flask run --host=0.0.0.0 para poder abrir el servidor y probarlo en otros dispositivos por medio de la red
 #Nota: Esto se hace dentro de la carpeta donde se encuentra el archivo app.py
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
