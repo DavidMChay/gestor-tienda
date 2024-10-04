@@ -33,10 +33,11 @@ app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__fil
 db = SQLAlchemy(app)
 
 # Configuración de la sesión
-app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_COOKIE_DOMAIN'] = None  # Permitir cookies en cualquier dominio
+app.config['SESSION_PERMANENT'] = False
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=90)
 app.config.update(
-    SESSION_COOKIE_SECURE=True,  # Solo para HTTPS, puedes cambiar a False si estás desarrollando localmente
+    SESSION_COOKIE_SECURE=False,  # Solo para HTTPS, puedes cambiar a False si estás desarrollando localmente
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax',
 )
@@ -82,7 +83,7 @@ class DetallePedido(db.Model):
     product = db.relationship('Producto', backref=db.backref('ordersDetails', lazy=True))
 
 class Auditoria(db.Model):
-    __tablename__ = 'auditory'
+    __tablename__ = 'auditories'
     id = db.Column(db.Integer, primary_key=True)
     entity = db.Column(db.String, nullable=False)
     operation = db.Column(db.String, nullable=False)
